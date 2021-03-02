@@ -14,18 +14,18 @@ class Graph:
         self.V = vertices 
         self.graph = [None] * self.V 
   
-    # Function to add an edge in an undirected graph 
-    def add_edge(self, src, dest, weight): 
+    # Function to add an edge in an undirected graph  
+    # é melhor chamar de neighbor por ser um grafo nao direcionado
+    def add_edge(self, Neighbor1, Neighbor2, weight): 
         # Adding the node to the source node 
-        node = AdjNode(dest,weight) 
-        node.next = self.graph[src] 
-        self.graph[src] = node 
+        node = AdjNode(Neighbor2,weight) 
+        node.next = self.graph[Neighbor1] 
+        self.graph[Neighbor1] = node 
   
-        # Adding the source node to the destination as 
-        # it is the undirected graph 
-        node = AdjNode(src,weight) 
-        node.next = self.graph[dest] 
-        self.graph[dest] = node 
+
+        node = AdjNode(Neighbor1,weight) 
+        node.next = self.graph[Neighbor2] 
+        self.graph[Neighbor2] = node 
   
     # Function to print the graph 
     def print_graph(self): 
