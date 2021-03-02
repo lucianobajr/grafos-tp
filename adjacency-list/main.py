@@ -41,22 +41,16 @@ class Graph:
 # Driver program to the above graph class 
 if __name__ == "__main__": 
     
-    V = 5    
-    Edge = 4
-    count = 0 
-    # como no arquivo iremos ler primeiro podemos contabilizar quantas linhas há antes de preencher 
-    
-    graph = Graph(V)    
-    while(count <= Edge): 
-        Vsrc = int(input("Src:")) 
-        Vdst = int(input("Dst: ")) 
-        Eweight = int(input("Weight: ")) 
-        graph.add_edge(Vsrc, Vdst,Eweight)  
-        count +=1   
-
-        if count == 4: 
-            break 
+    V = 5
+    graph = Graph(V) 
+    graph.add_edge(0, 1,1) 
+    graph.add_edge(0, 4,2) 
+    graph.add_edge(1, 2,3) 
+    graph.add_edge(1, 3,4) 
+    graph.add_edge(1, 4,2) 
+    graph.add_edge(2, 3,5) 
+    graph.add_edge(3, 4,6) 
   
-    graph.print_graph() 
+    graph.print_graph()
   
 # This code is contributed by Kanav Malhotra 
