@@ -4,10 +4,7 @@ class AdjNode:
         self.weight = weight  
         self.next = None
     
-# A class to represent a graph. A graph 
-# is the list of the adjacency lists. 
-# Size of the array will be the no. of the 
-# vertices "V" 
+
 class Graph: 
     def __init__(self, vertices): 
         self.V = vertices 
