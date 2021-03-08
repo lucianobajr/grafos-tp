@@ -36,7 +36,7 @@ class Graph:
         self.V = vertices 
         self.graph = [None] * self.V 
   
-    # Function to add an edge in an undirected graph  
+    # Functi'on to add an edge in an undirected graph  
     # é melhor chamar de neighbor por ser um grafo nao direcionado
     def add_edge(self, Neighbor1, Neighbor2, weight): 
         # Adding the node to the source node 
