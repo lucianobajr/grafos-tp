@@ -46,13 +46,21 @@ class Graph:
                     degree+=1
                 temp = temp.next
         return degree
+
+def size_graphAux(size):
+    size +=1
+    return size
+
+def print_size(size):
+    print("O tamanho do grafo é", size)
                             
   
 # Driver program to the above graph class 
 if __name__ == "__main__": 
+    size = 0
     with open(str(sys.argv[2]), 'r') as file_input:  # arquivo de input
         V = file_input.readline()
-        graph = Graph(int(V)) 
+        graph = Graph(int(V)+1) 
         while True:
             try:
                 file_line = file_input.readline()
@@ -61,11 +69,13 @@ if __name__ == "__main__":
                 else:
                     item = file_line.split(" ")
                     graph.add_edge(int(item[0]),int(item[1]),int(item[2]))
+                    size = size_graphAux(size)
             except:
                 print("Erro ao inserir Aresta")
            
    
     graph.print_graph()
+    print_size(size)
 
 
     '''
