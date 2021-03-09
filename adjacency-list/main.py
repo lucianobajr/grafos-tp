@@ -8,7 +8,7 @@ class AdjNode:
 class Graph: 
     def __init__(self, vertices): 
         self.V = vertices 
-
+        self.order = vertices
         self.graph = [None] * self.V 
   
     # Function to add an edge in an undirected graph  
@@ -18,7 +18,7 @@ class Graph:
         node = AdjNode(Neighbor2,weight) 
         node.next = self.graph[Neighbor1] 
         self.graph[Neighbor1] = node 
-  
+        self.order += 1  
 
         node = AdjNode(Neighbor1,weight) 
         node.next = self.graph[Neighbor2] 
@@ -33,6 +33,12 @@ class Graph:
                 print(" -- {} W: {} || ".format(temp.vertex, temp.weight), end="") 
                 temp = temp.next
             print(" \n") 
+
+    # Function to get the order
+    def get_order(self):
+        print("The order is ", self.order, end=" ")
+        print("")
+
   
   
 # Driver program to the above graph class 
@@ -47,7 +53,11 @@ if __name__ == "__main__":
     graph.add_edge(1, 4,2) 
     graph.add_edge(2, 3,5) 
     graph.add_edge(3, 4,6) 
-  
+   
     graph.print_graph()
+
+    graph.get_order()
+
+    
   
 # This code is contributed by Kanav Malhotra 
