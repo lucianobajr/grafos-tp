@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(1000000)
 
 class AdjNode: 
     def __init__(self, data,weight): 
@@ -65,8 +66,11 @@ class Graph:
             if visited[i] == False: 
                 self.APUtil(i, visited, ap, parent, low, disc) 
 
+        aux = []
         for index, value in enumerate (ap): 
-            if value == True: print (index) 
+            if value == True: 
+                aux.append(index)
+        return aux 
 
     def APUtil(self,u, visited, ap, parent, low, disc): 
 
@@ -112,6 +116,13 @@ class Graph:
             	low[u] = min(low[u], disc[temp.vertex])
             temp = temp.next
 
+    def findArtpoint(self, num):
+        artpoint = self.AP()
+        if(num in artpoint):
+            print(num," é um ponto de articulação.")
+        else:
+            print(num, "não é um ponto de articulação.")
+
 def size_graphAux(size):
     size +=1
     return size
@@ -123,7 +134,7 @@ def print_size(size):
 # Driver program to the above graph class 
 if __name__ == "__main__": 
     size = 0
-    with open("teste5.txt", 'r') as file_input:  # arquivo de input
+    with open("teste2.txt", 'r') as file_input:  # arquivo de input
         V = file_input.readline()
         graph = Graph(int(V)+1) 
         while True:
@@ -141,5 +152,6 @@ if __name__ == "__main__":
    
     graph.print_graph()
     print_size(size)
-    print("Pontos de articulação:")
-    graph.AP()
+    graph.findArtpoint(3)
+    #print("Pontos de articulação:")
+    #graph.AP()
