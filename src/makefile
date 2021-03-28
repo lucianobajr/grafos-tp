@@ -1,4 +1,4 @@
-INPUT=../data/teste.txt
+INPUT=../data/teste4.txt
 
 # assembler
 MAIN = main.py
