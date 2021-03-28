@@ -1,6 +1,5 @@
 INPUT=../data/teste4.txt
 
-# assembler
 MAIN = main.py
 
 all:
