@@ -1,6 +1,6 @@
-INPUT=../data/teste3.txt
 
-# assembler
+INPUT=../data/teste4.txt
+
 MAIN = main.py
 
 all:
