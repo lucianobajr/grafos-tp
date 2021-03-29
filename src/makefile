@@ -1,3 +1,4 @@
+
 INPUT=../data/teste4.txt
 
 MAIN = main.py
