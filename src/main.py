@@ -83,14 +83,24 @@ class Graph:
     # Retornar os vizinhos de um vértice fornecido
 
     def Neighbor_by_vertex(self, vertex):
+        
         findFlag = False
         for i in range(self.V):
             if i == vertex:
                 print("Lista de vizinhos do vertice {}\n ".format(i), end="")
+                arq=open("../out/saida.txt","a") 
+                arq.write("\n--------------------------------------------------\n")
+                arq.write("\nLista de vizinhos do vertice {}".format(i))    
+                arq.close()      
+
                 temp = self.graph[i]
                 findFlag = True
                 while temp:
-                    print(" -- {} W: {} || ".format(temp.vertex, temp.weight), end="")
+                    print(" -- {} W: {} || ".format(temp.vertex, temp.weight), end="") 
+                    arq=open("../out/saida.txt","a")
+                    arq.write(" -- {} W: {} || ".format(temp.vertex, temp.weight))  
+                    arq.close()      
+
                     temp = temp.next
                 print(" \n")
         if findFlag == False:
@@ -126,7 +136,10 @@ class Graph:
         while temp:  
             if marked[temp.vertex] == False:  
                 temp.explored = True  
-                print("{} - {}".format(vertex, temp.vertex)) 
+                print("{} - {}".format(vertex, temp.vertex))  
+                arq=open("../out/saida.txt","a") 
+                arq.write("%d %d\n"%(vertex,temp.vertex))    
+                arq.close()
                 aux_temp = self.graph[temp.vertex]  
                 while aux_temp:  
                     if aux_temp.vertex == vertex: 
@@ -136,7 +149,7 @@ class Graph:
                 self.Intern_DFS(temp.vertex,marked)
             else:   
                 if temp.explored == False:   
-                    arq=open("../out/teste.txt","a")
+                    arq=open("../out/arestas_retorno.txt","a") 
                     arq.write("%d %d\n"%(vertex,temp.vertex))    
                     arq.close()      
 
@@ -144,7 +157,11 @@ class Graph:
 
     def DFS(self, vertex):
         marked = []
-        self.Unmark_All(marked)
+        self.Unmark_All(marked) 
+        arq=open("../out/saida.txt","a") 
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("Sequencia de vertices vizitados na DFS\n")
+        arq.close()
         self.Intern_DFS(vertex,marked)
 
 #_________________________________________________________________________________#
@@ -224,8 +241,12 @@ class Graph:
 
     def findArtpoint(self, num):
         artpoint = self.AP()
-        if(num in artpoint):
-            print(num," é um ponto de articulação.")
+        if(num in artpoint): 
+            arq = open("../out/saida.txt","a")
+            arq.write("\n--------------------------------------------------\n")    
+            print(num," é um ponto de articulação.") 
+            arq.write("{} é um ponto de articulação.".format(num)) 
+            arq.close()
         else:
             print(num, "não é um ponto de articulação.")
 #_________________________________________________________________________________#
@@ -264,13 +285,16 @@ class Graph:
                 self.bridgeUtil(i, visited, parent, low, disc)
     
     def findBridges(self, num):
-        '''
         artpoint = self.AP()
-        if(num in artpoint):
-            print(num," é um ponto de articulação.")
+        if(num in artpoint): 
+            arq = open("../out/saida.txt","a")
+            arq.write("\n--------------------------------------------------\n")    
+            print(num," é uma ponte.") 
+            arq.write("{} é uma ponte.".format(num)) 
+            arq.close
         else:
-            print(num, "não é um ponto de articulação.")
-        '''
+            print(num, "não é uma ponte.")
+        
 
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
@@ -302,11 +326,19 @@ if __name__ == "__main__":
                 line = lines["{}".format(i+1)]
                 graph.add_edge(int(line['from']), int(line['to']), float(line['label']))
 
-    def option_1():
+    def option_1(): 
+        arq = open("../out/saida.txt","a")       
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("\nO grafo tem ordem {}\n".format(graph.get_order())) 
+        arq.close()
         print("\nO grafo tem ordem {}\n".format(graph.get_order()))
         pause()
 
-    def option_2():
+    def option_2(): 
+        arq = open("../out/saida.txt","a")      
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("\nO grafo tem tamanho {}\n".format(graph.sizeOfGraph())) 
+        arq.close()
         print("\nO grafo tem tamanho {}\n".format(graph.sizeOfGraph()))
         pause()
 
@@ -317,7 +349,11 @@ if __name__ == "__main__":
 
     def option_4():
         vertex = int(input("Digite o vertice: "))
-        print("\nO vértice {} tem grau {}\n".format(vertex, graph.findDegree(vertex)))
+        arq = open("../out/saida.txt","a")      
+        print("\nO vértice {} tem grau {}\n".format(vertex, graph.findDegree(vertex)))  
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("\nO vértice {} tem grau {}\n".format(vertex, graph.findDegree(vertex))) 
+        arq.close()
         pause()
 
     def option_5():
@@ -348,9 +384,12 @@ if __name__ == "__main__":
         plt.show()
         
     def option_10():
-        arq=open("../out/saida.txt","a")
-        arq.write("Ordem do grafo: {}\n".format(graph.get_order()))
-        arq.write("Tamanho do grafo: {}\n".format(graph.sizeOfGraph()))
+        arq=open("../out/saida.txt","a") 
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("Ordem do grafo: {}\n".format(graph.get_order())) 
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("Tamanho do grafo: {}\n".format(graph.sizeOfGraph())) 
+        arq.write("\n--------------------------------------------------\n")
         arq.write("Componentes conexos: {}\n".format( graph.connectedComponents()))
         arq.close()
 
