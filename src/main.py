@@ -429,16 +429,8 @@ if __name__ == "__main__":
         nx.draw_networkx_edge_labels(graph.G,pos,edge_labels=labels) 
         plt.show()
         
-    def option_10():
-        arq=open("../out/saida.txt","a") 
-        arq.write("\n--------------------------------------------------\n")
-        arq.write("Ordem do grafo: {}\n".format(graph.get_order())) 
-        arq.write("\n--------------------------------------------------\n")
-        arq.write("Tamanho do grafo: {}\n".format(graph.sizeOfGraph())) 
-        arq.write("\n--------------------------------------------------\n")
-        arq.write("Componentes conexos: {}\n".format( graph.connectedComponents()))
-        arq.close()
-
+    
+    
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
     sMenu.spacing = [ '0','d' ]
     sMenu.menu_option_add(option_1,'Retornar a ordem do grafo')
@@ -450,7 +442,6 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_7,'Verificar se um vértice é articulação')
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
-    sMenu.menu_option_add(option_10,'Gerar o arquivo de saída')
     sMenu.menu_start() 
 
 
