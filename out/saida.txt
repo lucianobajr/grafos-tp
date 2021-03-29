@@ -20,3 +20,6 @@ Sequencia de vertices vizitados na DFS
 --------------------------------------------------
 
 O vértice 4 tem grau 3
+
+--------------------------------------------------
+A aresta inserida não é uma ponte.

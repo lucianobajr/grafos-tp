@@ -248,10 +248,14 @@ class Graph:
             arq.write("{} é um ponto de articulação.".format(num)) 
             arq.close()
         else:
-            print(num, "não é um ponto de articulação.")
+            print(num, "não é um ponto de articulação.") 
+            arq = open("../out/saida.txt","a")
+            arq.write("\n--------------------------------------------------\n")    
+            arq.write("O vértice inserido não é um ponto de articulação.") 
+            arq.close()
 #_________________________________________________________________________________#
     # Verificar se uma aresta á ponte
-    def bridgeUtil(self,u, visited, parent, low, disc):
+    def bridgeUtil(self,u, visited, parent, low, disc,bridges):
   
         visited[u]= True
   
@@ -260,16 +264,19 @@ class Graph:
         self.Time += 1
   
         aux = self.graph[u]
+
         while aux:
             if visited[aux.vertex] == False :
                 parent[aux.vertex] = u
-                self.bridgeUtil(aux.vertex, visited, parent, low, disc)
+                self.bridgeUtil(aux.vertex, visited, parent, low, disc,bridges)
   
                 low[u] = min(low[u], low[aux.vertex])  
-  
+                auxVector = [ ]
                 if low[aux.vertex] > disc[u]:
-                    print ("%d %d" %(u,aux.vertex))                    
-                      
+                    auxVector.append(u)
+                    auxVector.append(aux.vertex)
+                bridges.append(auxVector)                          
+            
             elif aux.vertex != parent[u]:
                 low[u] = min(low[u], disc[aux.vertex])
             aux = aux.next
@@ -280,21 +287,33 @@ class Graph:
         low = [float("Inf")] * (self.V)
         parent = [-1] * (self.V)
 
+        bridges = []
+
         for i in range(self.V):
             if visited[i] == False:
-                self.bridgeUtil(i, visited, parent, low, disc)
-    
-    def findBridges(self, num):
+                self.bridgeUtil(i, visited, parent, low, disc,bridges)
+
+        return bridges
+                
+
+    def findBridges(self,m):
+        bridges = self.bridge()
+        response  = False
+        for bridge in bridges:
+            if m == bridge or m == bridge[::-1]:
+                response = True
+
+        return response
+                 
+
+
+        '''
         artpoint = self.AP()
-        if(num in artpoint): 
-            arq = open("../out/saida.txt","a")
-            arq.write("\n--------------------------------------------------\n")    
-            print(num," é uma ponte.") 
-            arq.write("{} é uma ponte.".format(num)) 
-            arq.close
+        if(num in artpoint):
+            print(num," é um ponto de articulação.")
         else:
-            print(num, "não é uma ponte.")
-        
+            print(num, "não é um ponto de articulação.")
+        '''
 
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
@@ -371,8 +390,26 @@ if __name__ == "__main__":
         pause()
 
     def option_8():
-        graph.bridge()
+        u = int(input("Digite um vértice (u): "))
+        v = int(input("Digite um vértice (v): "))
+        m = [u,v]
+        response =  graph.findBridges(m)
+
+        if response: 
+            arq = open("../out/saida.txt","a")
+            arq.write("\n--------------------------------------------------\n")    
+            arq.write("{}-{} é uma ponte.".format(u,v)) 
+            arq.close()
+            print("A aresta é ponte!")
+        else:
+            print("A aresta não é ponte!") 
+            arq = open("../out/saida.txt","a")
+            arq.write("\n--------------------------------------------------\n")    
+            arq.write("A aresta inserida não é uma ponte.") 
+            arq.close()
+
         pause()
+
 
     def option_9():
         pos=nx.random_layout(graph.G) 
@@ -405,4 +442,10 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
     sMenu.menu_option_add(option_10,'Gerar o arquivo de saída')
-    sMenu.menu_start()
+    sMenu.menu_start() 
+
+
+
+
+
+     
