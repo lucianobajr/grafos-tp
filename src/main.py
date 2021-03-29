@@ -345,6 +345,7 @@ if __name__ == "__main__":
 
     def option_6():
         print(graph.connectedComponents())
+        print("\nO número de componentes conexas é: {} \n".format(len(graph.connectedComponents())))
         pause()
 
     def option_7():
