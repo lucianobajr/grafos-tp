@@ -149,9 +149,18 @@ class Graph:
                 self.Intern_DFS(temp.vertex,marked)
             else:   
                 if temp.explored == False:   
-                    arq=open("../out/arestas_retorno.txt","a") 
-                    arq.write("%d %d\n"%(vertex,temp.vertex))    
-                    arq.close()      
+                    #exploração 
+                    temp.explored = True
+
+                    aux_temp = self.graph[temp.vertex]   
+                    while aux_temp:   
+                        if aux_temp.vertex == vertex: 
+                            arq=open("../out/arestas_retorno.txt","a") 
+                            arq.write("%d %d\n"%(vertex,temp.vertex))     
+                            arq.close()         
+                            aux_temp.explored = True 
+                        aux_temp = aux_temp.next
+            
 
             temp = temp.next
 
