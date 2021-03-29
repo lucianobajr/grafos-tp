@@ -11,6 +11,7 @@ while count <= n+n:
     while(node1 == node2): 
         node1 = random.randint(0,n) 
         node2 = random.randint(0,n)
-    weight = random.uniform(-20.0, 20.0)
-    fl.write("%d %d %8.2f\n"%(node1,node2,weight))   
+    weight = random.int(0,20) 
+
+    fl.write("%d %d %d\n"%(node1,node2,weight))   
     count+=1
