@@ -149,7 +149,6 @@ class Graph:
                 self.Intern_DFS(temp.vertex,marked)
             else:   
                 if temp.explored == False:   
-                    #exploração 
                     temp.explored = True
 
                     aux_temp = self.graph[temp.vertex]   
@@ -313,19 +312,18 @@ class Graph:
                 response = True
 
         return response
-                 
 
-
-        '''
-        artpoint = self.AP()
-        if(num in artpoint):
-            print(num," é um ponto de articulação.")
-        else:
-            print(num, "não é um ponto de articulação.")
-        '''
+def cleanFiles():
+    arq1 = open("../out/saida.txt","a")
+    arq1.truncate(0)
+    arq1.close()
+    arq2 = open("../out/arestas_retorno.txt","a")
+    arq2.truncate(0)
+    arq2.close()
 
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
+    cleanFiles()
     with open(str(sys.argv[2]), 'r') as file_input:
         V=0
         read_file = None
@@ -353,6 +351,8 @@ if __name__ == "__main__":
             for i in range (len(lines)):
                 line = lines["{}".format(i+1)]
                 graph.add_edge(int(line['from']), int(line['to']), float(line['label']))
+    
+    
 
     def option_1(): 
         arq = open("../out/saida.txt","a")       
@@ -392,6 +392,10 @@ if __name__ == "__main__":
     def option_6():
         print(graph.connectedComponents())
         print("\nO número de componentes conexas é: {} \n".format(len(graph.connectedComponents())))
+        arq = open("../out/saida.txt","a")
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("Componentes conexos do grafo: {}".format(graph.connectedComponents()))
+        arq.write("\nO número de componentes conexas é: {} \n".format(len(graph.connectedComponents())))
         pause()
 
     def option_7():
@@ -429,7 +433,6 @@ if __name__ == "__main__":
         labels = nx.get_edge_attributes(graph.G,'weight') 
         nx.draw_networkx_edge_labels(graph.G,pos,edge_labels=labels) 
         plt.show()
-        
     
     
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
@@ -444,9 +447,3 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
     sMenu.menu_start() 
-
-
-
-
-
-     

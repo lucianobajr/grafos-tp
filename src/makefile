@@ -1,5 +1,4 @@
-
-INPUT=../data/teste4.txt
+INPUT=../data/grafo.json
 
 MAIN = main.py
 
