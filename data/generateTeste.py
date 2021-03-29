@@ -1,4 +1,3 @@
-#codigo pra gerar testes  
 
 import random 
 n = int(input("Entre com o tamanho do grafo"))   
@@ -16,4 +15,3 @@ while count <= n+n:
 
     fl.write("%d %d %d\n"%(node1,node2,weight))   
     count+=1
-    
