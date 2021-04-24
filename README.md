@@ -1,24 +1,15 @@
-# grafos-tp01
-<code><h1 align="center">Instalação</h1></code>
-<code><img height="50" style="cursor:none;" target="https://www.python.org/" src="https://svgshare.com/i/NQC.svg"></code>
+# Biblioteca CCF 331 - TEORIA E MODELO DE GRAFOS
 
-### Atualizar o sistema com o apt
+### A estruturação da biblioteca segue o esquema a seguir:
 
- 
-    $  sudo apt update
-    $  sudo apt -y upgrade
-
-
-### Para gerenciar pacotes de software para Python, vamos instalar o pip , uma ferramenta que irá instalar e gerenciar pacotes de programação que podemos querer usar em nossos projetos de desenvolvimento
-
-    $   sudo apt install -y python3-pip
-
-
-### Existem mais alguns pacotes e ferramentas de desenvolvimento para instalar para garantir que tenhamos uma configuração robusta para nosso ambiente de programação:
-
-    $   sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
-
-### Instalação do Pacote JSON
-
-
-    $   pip install json
+    ├── src                       # códigos fonte
+    │   ├── makefile                # makefile para compilar a aplicação    
+    │   ├── main.py                 # arquivo principal da aplicação 
+    │   ├── menu.py                 # menu da aplicação
+    ├── data                      # arquivos de teste
+    │   ├── generateTeste.py        # programa para gerar .txts para testes
+    │   ├── arquivos .txt e .json
+    ├── out                       # resultados
+    │   ├── saida.txt               # informações obtidas do grafo durante a execução   
+    │   ├── teste.txt               # arestas de retorno do DFS   
+    │   

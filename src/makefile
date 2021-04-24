@@ -1,6 +1,5 @@
-INPUT=../data/teste.txt
+INPUT=../data/grafo.json
 
-# assembler
 MAIN = main.py
 
 all:

@@ -1,0 +1,97 @@
+{
+  "data": {
+    "nodes": {
+      "_subscribers": { "*": [], "add": [{}], "remove": [{}], "update": [{}] },
+      "_options": {},
+      "_data": {
+        "1": {
+          "id": 1,
+          "x": -67.85151763338366,
+          "y": -101.83328353287546,
+          "label": "1"
+        },
+        "2": {
+          "id": 2,
+          "x": 153.34264555899276,
+          "y": -77.870582520368,
+          "label": "2"
+        },
+        "3": {
+          "id": 3,
+          "x": -35.594035501162104,
+          "y": 17.05857918302687,
+          "label": "3"
+        },
+        "4": {
+          "id": 4,
+          "x": -85.3627222194468,
+          "y": -13.355618255924888,
+          "label": "4"
+        },
+        "5": {
+          "id": 5,
+          "x": 10.488081830582985,
+          "y": 130.4205878191198,
+          "label": "5"
+        }
+      },
+      "length": 5,
+      "_idProp": "id",
+      "_type": {}
+    },
+    "edges": {
+      "_subscribers": { "*": [], "add": [{}], "remove": [{}], "update": [{}] },
+      "_options": {},
+      "_data": {
+        "1": { "from": 5, "to": 1, "label": "0.1", "id": 1, "color": {} },
+        "2": { "from": 1, "to": 2, "label": "1.2", "id": 2, "color": {} },
+        "3": { "from": 2, "to": 5, "label": "2.3", "id": 3, "color": {} },
+        "4": { "from": 5, "to": 3, "label": "-8.4", "id": 4, "color": {} },
+        "5": { "from": 3, "to": 4, "label": "0.3", "id": 5, "color": {} },
+        "6": { "from": 4, "to": 5, "label": "4.6", "id": 6, "color": {} }
+      },
+      "length": 6,
+      "_idProp": "id",
+      "_type": {}
+    }
+  },
+  "options": {
+    "locale": "pt-br",
+    "manipulation": { "enabled": false },
+    "edges": { "font": { "color": "#ffffff", "strokeWidth": 0, "size": 18 } },
+    "nodes": {
+      "color": {
+        "border": "#698B69",
+        "background": "#458B74",
+        "highlight": { "border": "#698B69", "background": "#4f6e4f" }
+      },
+      "font": { "color": "white" }
+    },
+    "physics": {
+      "enabled": true,
+      "forceAtlas2Based": {
+        "gravitationalConstant": -50,
+        "centralGravity": 0.01,
+        "springConstant": 0.02,
+        "springLength": 100,
+        "damping": 0.4,
+        "avoidOverlap": 0
+      },
+      "maxVelocity": 50,
+      "minVelocity": 0.1,
+      "solver": "forceAtlas2Based",
+      "stabilization": {
+        "enabled": true,
+        "iterations": 1000,
+        "updateInterval": 100,
+        "onlyDynamicEdges": false,
+        "fit": true
+      },
+      "timestep": 0.5,
+      "adaptiveTimestep": true
+    }
+  },
+  "ponderado": true,
+  "ordenado": false
+}
+
