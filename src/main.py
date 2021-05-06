@@ -1,10 +1,12 @@
 import sys
-import networkx as nx 
-import matplotlib.pyplot as plt   
+import re
+from math import sqrt,floor
+import networkx as nx
+import matplotlib.pyplot as plt
 import json
 from ipython_genutils.py3compat import xrange
-from menu import simpleMenu, pause 
-sys.setrecursionlimit(10**6) 
+from menu import simpleMenu, pause
+sys.setrecursionlimit(10**6)
 
 class bcolors:
     Preto = '\033[1;30m'
@@ -65,12 +67,15 @@ class Graph:
 
 #_____________FUNÇÕES DO TP_____________#
 
+
+
 #_________________________________________________________________________________#
     # Retornar a ordem do grafo
     def get_order(self):
         return self.V - 1
 #_________________________________________________________________________________#
     # Determinar o tamanho
+
     def sizeOfGraph(self):
         size = 0
         for i in range(self.V):
@@ -83,23 +88,25 @@ class Graph:
     # Retornar os vizinhos de um vértice fornecido
 
     def Neighbor_by_vertex(self, vertex):
-        
+
         findFlag = False
         for i in range(self.V):
             if i == vertex:
                 print("Lista de vizinhos do vertice {}\n ".format(i), end="")
-                arq=open("../out/saida.txt","a") 
-                arq.write("\n--------------------------------------------------\n")
-                arq.write("\nLista de vizinhos do vertice {}".format(i))    
-                arq.close()      
+                arq = open("../out/saida.txt", "a")
+                arq.write(
+                    "\n--------------------------------------------------\n")
+                arq.write("\nLista de vizinhos do vertice {}".format(i))
+                arq.close()
 
                 temp = self.graph[i]
                 findFlag = True
                 while temp:
-                    print(" -- {} W: {} || ".format(temp.vertex, temp.weight), end="") 
-                    arq=open("../out/saida.txt","a")
-                    arq.write(" -- {} W: {} || ".format(temp.vertex, temp.weight))  
-                    arq.close()      
+                    print(" -- {} W: {} || ".format(temp.vertex, temp.weight), end="")
+                    arq = open("../out/saida.txt", "a")
+                    arq.write(
+                        " -- {} W: {} || ".format(temp.vertex, temp.weight))
+                    arq.close()
 
                     temp = temp.next
                 print(" \n")
@@ -122,55 +129,54 @@ class Graph:
     ''' Determinar a sequência de vértices visitados na busca em profundidade e informar
     a(s) aresta(s) de retorno '''
 
-    def Unmark_All(self,marked):
-        for i in xrange (0,self.V):
-            temp = self.graph[i] 
+    def Unmark_All(self, marked):
+        for i in xrange(0, self.V):
+            temp = self.graph[i]
             marked.append(False)
-            while temp:     
+            while temp:
                 temp.explored = False
-                temp = temp.next 
+                temp = temp.next
 
-    def Intern_DFS(self, vertex,marked):
-        temp = self.graph[vertex]  
+    def Intern_DFS(self, vertex, marked):
+        temp = self.graph[vertex]
         marked[vertex] = True
-        while temp:  
-            if marked[temp.vertex] == False:  
-                temp.explored = True  
-                print("{} - {}".format(vertex, temp.vertex))  
-                arq=open("../out/saida.txt","a") 
-                arq.write("%d %d\n"%(vertex,temp.vertex))    
+        while temp:
+            if marked[temp.vertex] == False:
+                temp.explored = True
+                print("{} - {}".format(vertex, temp.vertex))
+                arq = open("../out/saida.txt", "a")
+                arq.write("%d %d\n" % (vertex, temp.vertex))
                 arq.close()
-                aux_temp = self.graph[temp.vertex]  
-                while aux_temp:  
-                    if aux_temp.vertex == vertex: 
-                        aux_temp.explored = True 
+                aux_temp = self.graph[temp.vertex]
+                while aux_temp:
+                    if aux_temp.vertex == vertex:
+                        aux_temp.explored = True
                     aux_temp = aux_temp.next
-            
-                self.Intern_DFS(temp.vertex,marked)
-            else:   
-                if temp.explored == False:   
+
+                self.Intern_DFS(temp.vertex, marked)
+            else:
+                if temp.explored == False:
                     temp.explored = True
 
-                    aux_temp = self.graph[temp.vertex]   
-                    while aux_temp:   
-                        if aux_temp.vertex == vertex: 
-                            arq=open("../out/arestas_retorno.txt","a") 
-                            arq.write("%d %d\n"%(vertex,temp.vertex))     
-                            arq.close()         
-                            aux_temp.explored = True 
+                    aux_temp = self.graph[temp.vertex]
+                    while aux_temp:
+                        if aux_temp.vertex == vertex:
+                            arq = open("../out/arestas_retorno.txt", "a")
+                            arq.write("%d %d\n" % (vertex, temp.vertex))
+                            arq.close()
+                            aux_temp.explored = True
                         aux_temp = aux_temp.next
-            
 
             temp = temp.next
 
     def DFS(self, vertex):
         marked = []
-        self.Unmark_All(marked) 
-        arq=open("../out/saida.txt","a") 
+        self.Unmark_All(marked)
+        arq = open("../out/saida.txt", "a")
         arq.write("\n--------------------------------------------------\n")
         arq.write("Sequencia de vertices vizitados na DFS\n")
         arq.close()
-        self.Intern_DFS(vertex,marked)
+        self.Intern_DFS(vertex, marked)
 
 #_________________________________________________________________________________#
     '''Determinar o número de componentes conexas do grafo e os vértices de cada componente'''
@@ -207,7 +213,7 @@ class Graph:
         disc = [float("Inf")] * (self.V)
         low = [float("Inf")] * (self.V)
         parent = [-1] * (self.V)
-        ap = [False] * (self.V) 
+        ap = [False] * (self.V)
 
         for i in range(self.V):
             if visited[i] == False:
@@ -217,7 +223,7 @@ class Graph:
         for index, value in enumerate(ap):
             if value == True:
                 aux.append(index)
-        return aux 
+        return aux
 
     def APUtil(self, u, visited, ap, parent, low, disc):
         children = 0
@@ -249,42 +255,44 @@ class Graph:
 
     def findArtpoint(self, num):
         artpoint = self.AP()
-        if(num in artpoint): 
-            arq = open("../out/saida.txt","a")
-            arq.write("\n--------------------------------------------------\n")    
-            print(num," é um ponto de articulação.") 
-            arq.write("{} é um ponto de articulação.".format(num)) 
+        if(num in artpoint):
+            arq = open("../out/saida.txt", "a")
+            arq.write("\n--------------------------------------------------\n")
+            print(num, " é um ponto de articulação.")
+            arq.write("{} é um ponto de articulação.".format(num))
             arq.close()
         else:
-            print(num, "não é um ponto de articulação.") 
-            arq = open("../out/saida.txt","a")
-            arq.write("\n--------------------------------------------------\n")    
-            arq.write("O vértice inserido não é um ponto de articulação.") 
+            print(num, "não é um ponto de articulação.")
+            arq = open("../out/saida.txt", "a")
+            arq.write("\n--------------------------------------------------\n")
+            arq.write("O vértice inserido não é um ponto de articulação.")
             arq.close()
 #_________________________________________________________________________________#
     # Verificar se uma aresta á ponte
-    def bridgeUtil(self,u, visited, parent, low, disc,bridges):
-  
-        visited[u]= True
-  
+
+    def bridgeUtil(self, u, visited, parent, low, disc, bridges):
+
+        visited[u] = True
+
         disc[u] = self.Time
         low[u] = self.Time
         self.Time += 1
-  
+
         aux = self.graph[u]
 
         while aux:
-            if visited[aux.vertex] == False :
+            if visited[aux.vertex] == False:
                 parent[aux.vertex] = u
-                self.bridgeUtil(aux.vertex, visited, parent, low, disc,bridges)
-  
-                low[u] = min(low[u], low[aux.vertex])  
-                auxVector = [ ]
+                self.bridgeUtil(aux.vertex, visited,
+                                parent, low, disc, bridges)
+
+                low[u] = min(low[u], low[aux.vertex])
+                auxVector = []
                 if low[aux.vertex] > disc[u]:
                     auxVector.append(u)
                     auxVector.append(aux.vertex)
-                bridges.append(auxVector)                          
-            
+                bridges.append(auxVector)
+
             elif aux.vertex != parent[u]:
                 low[u] = min(low[u], disc[aux.vertex])
             aux = aux.next
@@ -299,61 +307,122 @@ class Graph:
 
         for i in range(self.V):
             if visited[i] == False:
-                self.bridgeUtil(i, visited, parent, low, disc,bridges)
+                self.bridgeUtil(i, visited, parent, low, disc, bridges)
 
         return bridges
-                
 
-    def findBridges(self,m):
+    def findBridges(self, m):
         bridges = self.bridge()
-        response  = False
+        response = False
         for bridge in bridges:
             if m == bridge or m == bridge[::-1]:
                 response = True
 
         return response
 
+
 def cleanFiles():
-    arq1 = open("../out/saida.txt","a")
+    arq1 = open("../out/saida.txt", "a")
     arq1.truncate(0)
     arq1.close()
-    arq2 = open("../out/arestas_retorno.txt","a")
+    arq2 = open("../out/arestas_retorno.txt", "a")
     arq2.truncate(0)
     arq2.close()
+
+
+# ------------------------------------TSP Files------------------------------------
+cities_set = []
+cities_tups = []
+
+
+def read_tsp_data(tsp_name):
+	tsp_name = tsp_name
+	with open(tsp_name) as f:
+		content = f.read().splitlines()
+		cleaned = [x.lstrip() for x in content if x != ""]
+		return cleaned
+
+
+def detect_dimension(in_list):
+	non_numeric = re.compile(r'[^\d]+')
+	for element in in_list:
+		if element.startswith("DIMENSION"):
+			return non_numeric.sub("", element)
+
+
+def get_cities(list, dimension):
+	dimension = int(dimension)
+	for item in list:
+		for num in range(1, dimension + 1):
+			if item.startswith(str(num)):
+				index, space, rest = item.partition(' ')
+				if rest not in cities_set:
+					cities_set.append(rest)
+	return cities_set
+
+
+def city_tup(list):
+	for item in list:
+		first_coord, space, second_coord = item.partition(' ')
+		cities_tups.append(
+            (first_coord.strip(), second_coord.strip(), float(sqrt(float(first_coord.strip())*float(first_coord.strip())+float(second_coord.strip())*float(second_coord.strip())))))
+	return cities_tups
+
+
+def produce_final(file=str(sys.argv[2])):
+	data = read_tsp_data(file)
+	dimension = detect_dimension(data)
+	cities_set = get_cities(data, dimension)
+	cities_tups = city_tup(cities_set)
 
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
     cleanFiles()
-    with open(str(sys.argv[2]), 'r') as file_input:
-        V=0
-        read_file = None
-        if str(sys.argv[2])[8:].split(".")[1]=="txt":
-            V = file_input.readline()
-        else:
-            read_file = json.load(file_input)
-            V = read_file['data']['nodes']['length']
+    if((str(sys.argv[2])[8:].split(".")[1] == "txt") or (str(sys.argv[2])[8:].split(".")[1] == "json")):
+        with open(str(sys.argv[2]), 'r') as file_input:
+            V = 0
+            read_file = None
+            if str(sys.argv[2])[8:].split(".")[1] == "txt":
+                V = file_input.readline()
+            else:
+                read_file = json.load(file_input)
+                V = read_file['data']['nodes']['length']
 
-        graph = Graph(int(V)+1)
+            graph = Graph(int(V)+1)
 
-        if str(sys.argv[2])[8:].split(".")[1]=="txt":
-            while True:
-                try:
-                    file_line = file_input.readline()
-                    if not file_line:
-                        break
-                    else:
-                        item = file_line.split(" ")
-                        graph.add_edge(int(item[0]), int(item[1]), float(item[2]))
-                except:
-                    print("Erro ao inserir Aresta")
-        else:
-            lines = read_file['data']['edges']['_data']
-            for i in range (len(lines)):
-                line = lines["{}".format(i+1)]
-                graph.add_edge(int(line['from']), int(line['to']), float(line['label']))
+            if str(sys.argv[2])[8:].split(".")[1] == "txt":
+                while True:
+                    try:
+                        file_line = file_input.readline()
+                        if not file_line:
+                            break
+                        else:
+                            item = file_line.split(" ")
+                            graph.add_edge(int(item[0]), int(
+                                item[1]), float(item[2]))
+                    except:
+                        print("Erro ao inserir Aresta")
+            else:
+                lines = read_file['data']['edges']['_data']
+                for i in range(len(lines)):
+                    line = lines["{}".format(i+1)]
+                    graph.add_edge(int(line['from']), int(
+                        line['to']), float(line['label']))
+    else:
+        produce_final()
+        V=len(cities_tups)
+        graph = Graph(V*V)
+
+        for i in range(len(cities_tups)):
+            line0 = floor(float(cities_tups[i][0]))
+            line1 = floor(float(cities_tups[i][1]))
+            line2 = round(float(cities_tups[i][2]), 2)
+           
+            try:
+                graph.add_edge(int(line0), int(line1), line2)
+            except:
+                print("Erro ao inserir Aresta")  
     
-    
-
     def option_1(): 
         arq = open("../out/saida.txt","a")       
         arq.write("\n--------------------------------------------------\n")
@@ -421,9 +490,7 @@ if __name__ == "__main__":
             arq.write("\n--------------------------------------------------\n")    
             arq.write("A aresta inserida não é uma ponte.") 
             arq.close()
-
         pause()
-
 
     def option_9():
         pos=nx.random_layout(graph.G) 
@@ -434,6 +501,10 @@ if __name__ == "__main__":
         nx.draw_networkx_edge_labels(graph.G,pos,edge_labels=labels) 
         plt.show()
     
+    def option_10():    
+        print("Dimensão:",)
+        print(cities_tups)
+        pause()
     
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
     sMenu.spacing = [ '0','d' ]
@@ -446,4 +517,5 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_7,'Verificar se um vértice é articulação')
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
+    sMenu.menu_option_add(option_10,'Printar TSP')
     sMenu.menu_start() 
