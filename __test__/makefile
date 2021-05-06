@@ -1,4 +1,4 @@
-INPUT=../data/tsp/ulysses16.tsp
+INPUT=../data/tsp/berlin52.tsp
 
 MAIN = main.py
 
