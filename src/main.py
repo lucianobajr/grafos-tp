@@ -415,6 +415,32 @@ closest city"""
         tsp, current_city, city)
     return min(untraveled_cities, key=distance_to_current_city)
 
+def furthest_neighbor_tour(tsp):
+    """Construct a tour through all cities in a TSP by following the nearest
+neighbor heuristic"""
+    furthest_neighbor_path = [1]
+    current_city = 1
+    cities_to_travel = set(range(2, int(detect_dimension(tsp)) + 1))
+
+    while cities_to_travel:
+        current_city = furthest_neighbor(tsp, cities_to_travel, current_city)
+        furthest_neighbor_path.append(current_city)
+        cities_to_travel.remove(current_city)
+    return tour_from_path(furthest_neighbor_path)
+
+
+
+def furthest_neighbor(tsp, untraveled_cities, current_city):
+    """Given a set of city keys, find the key corresponding to the
+closest city"""
+    def distance_to_current_city(city): return calc_distance(
+        tsp, current_city, city)
+    return max(untraveled_cities, key=distance_to_current_city)
+
+def produce_final2(file=str(sys.argv[2])):
+    data = read_tsp_data(file)
+    return to_init_graph(data, furthest_neighbor_tour(data))
+
 
 def calc_distance(tsp, city1_index, city2_index):
     """Calculate distance between cities by their (one-based) indices"""
@@ -487,7 +513,8 @@ if __name__ == "__main__":
                     graph.add_edge(int(line['from']), int(
                         line['to']), float(line['label']))
     else:
-        res = produce_final()
+        #res = produce_final()
+        res = produce_final2()
         V=len(res)
         graph = Graph(V+1)
 
@@ -588,4 +615,8 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_7,'Verificar se um vértice é articulação')
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
+    #sMenu.menu_option_add(option_10,'Gera circuito: Vizinho mais próximo')
+    #sMenu.menu_option_add(option_11,'Gera circuito: Vizinho mais distante')
+    #sMenu.menu_option_add(option_12,'Gera circuito: Vizinho mais próximo + 2opt')
+    #sMenu.menu_option_add(option_13,'Gera circuito: Vizinho mais distante + 2opt')
     sMenu.menu_start() 
