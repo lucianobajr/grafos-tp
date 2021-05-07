@@ -1,6 +1,6 @@
 INPUT_TXT=../data/txt/teste3.txt
 INPUT_JSON=../data/json/grafo.json
-INPUT_SALESMAN=../data/tsp/ulysses16.tsp
+INPUT_SALESMAN=../data/tsp/ch130.tsp
 
 MAIN = main.py
 
