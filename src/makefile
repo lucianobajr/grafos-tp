@@ -5,13 +5,19 @@ INPUT_SALESMAN=../data/tsp/ulysses16.tsp
 MAIN = main.py
 
 all:
-	python3 $(MAIN) -o -nn $(INPUT_SALESMAN) 
+	python3 $(MAIN) -o -normal $(INPUT_TXT) 
+
+nn:
+	python3 $(MAIN) -o -nn $(INPUT_SALESMAN)
 
 fn:
 	python3 $(MAIN) -o -fn $(INPUT_SALESMAN) 
 
+windows:
+	python $(MAIN) -o -normal $(INPUT_TXT)
+
 windows_nn:
-	python main.py -o -nn ../data/teste3.txt 
+	python $(MAIN) -o -nn $(INPUT_SALESMAN)
 
 windows_fn:
-	python main.py -o -fn ../data/teste3.txt 
+	python $(MAIN) -o -fn $(INPUT_SALESMAN)

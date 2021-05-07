@@ -5,7 +5,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import json
 from ipython_genutils.py3compat import xrange
-from menu import simpleMenu, pause
+from menu import simpleMenu, pause 
+from k2opt import Improver
+import random
+
 sys.setrecursionlimit(10**6)
 
 class bcolors:
@@ -396,16 +399,33 @@ def tour_from_path(path):
 
 def nearest_neighbor_tour(tsp):
     """Construct a tour through all cities in a TSP by following the nearest
-neighbor heuristic"""
+neighbor heuristic""" 
+
     nearest_neighbor_path = [1]
-    current_city = 1
+    current_city = random.randint(1,int(detect_dimension(tsp)))
     cities_to_travel = set(range(2, int(detect_dimension(tsp)) + 1))
 
     while cities_to_travel:
         current_city = nearest_neighbor(tsp, cities_to_travel, current_city)
         nearest_neighbor_path.append(current_city)
-        cities_to_travel.remove(current_city)
-    return tour_from_path(nearest_neighbor_path)
+        cities_to_travel.remove(current_city) 
+    return tour_from_path(nearest_neighbor_path)     
+
+    
+def Optimal_NN(tsp): 
+    K2opt = Improver()  
+    dim = int(detect_dimension(tsp))
+    # tour , tamanho 
+    nearest_neighbor_path = nearest_neighbor_tour(tsp)
+    return K2opt.driver2opt(str(sys.argv[3]),dim,nearest_neighbor_path)
+    
+def Optimal_FN(tsp): 
+    K2opt = Improver()  
+    dim = int(detect_dimension(tsp))
+    # tour , tamanho 
+    furthest_neighbor_path = furthest_neighbor_tour(tsp)
+    return K2opt.driver2opt(str(sys.argv[3]),dim,furthest_neighbor_path)
+    
 
 
 def nearest_neighbor(tsp, untraveled_cities, current_city):
@@ -413,13 +433,15 @@ def nearest_neighbor(tsp, untraveled_cities, current_city):
 closest city"""
     def distance_to_current_city(city): return calc_distance(
         tsp, current_city, city)
-    return min(untraveled_cities, key=distance_to_current_city)
-
+    
+    return min(untraveled_cities, key=distance_to_current_city) 
+    
+    
 def furthest_neighbor_tour(tsp):
     """Construct a tour through all cities in a TSP by following the nearest
 neighbor heuristic"""
     furthest_neighbor_path = [1]
-    current_city = 1
+    current_city =  random.randint(1,int(detect_dimension(tsp)))
     cities_to_travel = set(range(2, int(detect_dimension(tsp)) + 1))
 
     while cities_to_travel:
@@ -442,11 +464,61 @@ def calc_distance(tsp, city1_index, city2_index):
     return euc_2d_distance(cities[city1_index - 1], cities[city2_index - 1])
 
 
+
+def util_final_tour(tsp, flag):  
+        if flag == 1 : # nn
+            f = open("../out/%s-NN.txt"%str(sys.argv[3])[12:-4], "w") 
+        
+            Best_final_path =  []  
+            Best_final_length = final_distance(tsp,nearest_neighbor_tour(tsp))
+            for i in range (30):      
+                Aux_final_path, Aux_final_lenght = Optimal_NN(tsp)  
+                f.write("Simulation: {} LENGHT: {}\n".format(i,Aux_final_lenght))
+                if Aux_final_lenght < Best_final_length: 
+                    Best_final_length = Aux_final_lenght 
+                    Best_final_path = Aux_final_path.copy()
+        
+            f.write("BEST LENGHT {}\n".format(Best_final_length))
+            print("BEST LENGHT:",Best_final_length)
+            print(Best_final_path[:])   
+            f.close()
+            
+            return tour_from_path(Best_final_path) 
+        elif flag == 2: #fn 
+            f = open("../out/%s-FN.txt"%str(sys.argv[3])[12:-4], "w") 
+        
+            Best_final_path =  []  
+            Best_final_length = final_distance(tsp,furthest_neighbor_tour(tsp))
+            for i in range (30):      
+                Aux_final_path, Aux_final_lenght = Optimal_FN(tsp)  
+                f.write("Simulation: {} LENGHT: {}\n".format(i,Aux_final_lenght))
+                if Aux_final_lenght < Best_final_length: 
+                    Best_final_length = Aux_final_lenght 
+                    Best_final_path = Aux_final_path.copy()
+        
+            f.write("BEST LENGHT {}\n".format(Best_final_length))
+            print("BEST LENGHT:",Best_final_length)
+            print(Best_final_path[:])   
+            f.close()
+            
+            return tour_from_path(Best_final_path)   
+
+
 def euc_2d_distance(city1, city2):
     xd = city1[0] - city2[0]
     yd = city1[1] - city2[1]
     return round(sqrt(xd*xd + yd*yd),2)
 
+def final_distance(tsp,list): 
+    return distance_tour(to_init_graph(tsp,list)) 
+
+def distance_tour(list):
+    distance = 0
+
+    for item in list:
+        distance += item[2]
+
+    return distance
 
 def to_init_graph(tsp, list):
     array = []
@@ -474,9 +546,9 @@ def produce_final(file=str(sys.argv[3])):
     data = read_tsp_data(file)
     
     if str(sys.argv[2])[1:]=='nn':
-        return to_init_graph(data, nearest_neighbor_tour(data))
+        return to_init_graph(data, util_final_tour(data,1))
     else:
-        return to_init_graph(data, furthest_neighbor_tour(data))
+        return to_init_graph(data, util_final_tour(data,2))
     
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
@@ -485,7 +557,7 @@ if __name__ == "__main__":
         with open(str(sys.argv[3]), 'r') as file_input:
             V = 0
             read_file = None
-            if str(sys.argv[2])[8:].split(".")[1] == "txt":
+            if str(sys.argv[3])[8:].split(".")[1] == "txt":
                 V = file_input.readline()
             else:
                 read_file = json.load(file_input)
@@ -589,7 +661,8 @@ if __name__ == "__main__":
             arq.write("\n--------------------------------------------------\n")    
             arq.write("A aresta inserida não é uma ponte.") 
             arq.close()
-        pause()
+        pause() 
+
 
     def option_9():
         pos=nx.random_layout(graph.G) 
@@ -598,17 +671,23 @@ if __name__ == "__main__":
         nx.draw_networkx(graph.G,pos,node_color='yellowgreen') 
         labels = nx.get_edge_attributes(graph.G,'weight') 
         nx.draw_networkx_edge_labels(graph.G,pos,edge_labels=labels) 
-        plt.show()
+        plt.show() 
     
+    def option_10(): 
+        graph.print_graph() 
+        pause()
+
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
     sMenu.spacing = [ '0','d' ]
     sMenu.menu_option_add(option_1,'Retornar a ordem do grafo')
     sMenu.menu_option_add(option_2,'Determinar o tamanho do grafo')
     sMenu.menu_option_add(option_3,'Retornar os vizinhos de um vértice fornecido')
     sMenu.menu_option_add(option_4,'Determinar o grau de um vértice fornecido')
-    sMenu.menu_option_add(option_5,'Determinar a sequência de vértices visitados na busca em profundidade e informar a(s) aresta(s) de retorno')
+    sMenu.menu_option_add(option_5,'De9terminar a sequência de vértices visitados na busca em profundidade e informar a(s) aresta(s) de retorno')
     sMenu.menu_option_add(option_6,'Determinar o número de componentes conexas do grafo e os vértices de cada componente')
     sMenu.menu_option_add(option_7,'Verificar se um vértice é articulação')
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
-    sMenu.menu_option_add(option_9,'Visualizar o grafo')
+    sMenu.menu_option_add(option_9,'Visualizar o grafo') 
+    sMenu.menu_option_add(option_10,'printar grafo na linha de comando') 
+    
     sMenu.menu_start() 
