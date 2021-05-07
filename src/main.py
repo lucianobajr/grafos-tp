@@ -428,18 +428,12 @@ neighbor heuristic"""
         cities_to_travel.remove(current_city)
     return tour_from_path(furthest_neighbor_path)
 
-
-
 def furthest_neighbor(tsp, untraveled_cities, current_city):
     """Given a set of city keys, find the key corresponding to the
 closest city"""
     def distance_to_current_city(city): return calc_distance(
         tsp, current_city, city)
     return max(untraveled_cities, key=distance_to_current_city)
-
-def produce_final2(file=str(sys.argv[2])):
-    data = read_tsp_data(file)
-    return to_init_graph(data, furthest_neighbor_tour(data))
 
 
 def calc_distance(tsp, city1_index, city2_index):
@@ -476,14 +470,19 @@ def to_init_graph(tsp, list):
 
     return array
 
-def produce_final(file=str(sys.argv[2])):
+def produce_final(file=str(sys.argv[3])):
     data = read_tsp_data(file)
-    return to_init_graph(data, nearest_neighbor_tour(data))
+    
+    if str(sys.argv[2])[1:]=='nn':
+        return to_init_graph(data, nearest_neighbor_tour(data))
+    else:
+        return to_init_graph(data, furthest_neighbor_tour(data))
+    
 # ______________________________________Driver___________________________________________
 if __name__ == "__main__":
     cleanFiles()
-    if((str(sys.argv[2])[8:].split(".")[1] == "txt") or (str(sys.argv[2])[8:].split(".")[1] == "json")):
-        with open(str(sys.argv[2]), 'r') as file_input:
+    if((str(sys.argv[3])[8:].split(".")[1] == "txt") or (str(sys.argv[3])[8:].split(".")[1] == "json")):
+        with open(str(sys.argv[3]), 'r') as file_input:
             V = 0
             read_file = None
             if str(sys.argv[2])[8:].split(".")[1] == "txt":
@@ -494,7 +493,7 @@ if __name__ == "__main__":
 
             graph = Graph(int(V)+1)
 
-            if str(sys.argv[2])[8:].split(".")[1] == "txt":
+            if str(sys.argv[3])[8:].split(".")[1] == "txt":
                 while True:
                     try:
                         file_line = file_input.readline()
@@ -513,8 +512,7 @@ if __name__ == "__main__":
                     graph.add_edge(int(line['from']), int(
                         line['to']), float(line['label']))
     else:
-        #res = produce_final()
-        res = produce_final2()
+        res = produce_final()
         V=len(res)
         graph = Graph(V+1)
 
@@ -523,8 +521,6 @@ if __name__ == "__main__":
                 graph.add_edge(item[0], item[1], item[2])
             except:
                 print("Erro ao inserir Aresta")
-
-    
     
     def option_1(): 
         arq = open("../out/saida.txt","a")       
@@ -615,8 +611,4 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_7,'Verificar se um vértice é articulação')
     sMenu.menu_option_add(option_8,'Verificar se uma aresta á ponte')
     sMenu.menu_option_add(option_9,'Visualizar o grafo')
-    #sMenu.menu_option_add(option_10,'Gera circuito: Vizinho mais próximo')
-    #sMenu.menu_option_add(option_11,'Gera circuito: Vizinho mais distante')
-    #sMenu.menu_option_add(option_12,'Gera circuito: Vizinho mais próximo + 2opt')
-    #sMenu.menu_option_add(option_13,'Gera circuito: Vizinho mais distante + 2opt')
     sMenu.menu_start() 
