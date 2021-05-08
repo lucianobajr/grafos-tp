@@ -14,10 +14,10 @@ fn:
 	python3 $(MAIN) -o -fn $(INPUT_SALESMAN) 
 
 windows:
-	python $(MAIN) -o -normal $(INPUT_TXT)
+	python main.py -o -normal ../data/txt/teste3.txt
 
 windows_nn:
-	python $(MAIN) -o -nn $(INPUT_SALESMAN)
+	python main.py -o -nn ../data/tsp/ulysses16.tsp
 
 windows_fn:
-	python $(MAIN) -o -fn $(INPUT_SALESMAN)
+	python main.py -o -fn ../data/tsp/ulysses16.tsp
