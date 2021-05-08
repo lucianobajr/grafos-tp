@@ -1,8 +1,9 @@
 import scipy.stats
+import sys
 import numpy as np
 from functools import reduce  
 import statistics
-path = '/Users/Macbook/Documents/grafos-tp/out/d198-FN.txt'
+path = str(sys.argv[2])
 
 def extract_length(source): 
     for i,w in enumerate(words): 
@@ -38,19 +39,19 @@ def confident_interval_data(X, confidence = 0.95, sigma = -1):
 all_values = []   
 count = 0 
 with open(path,'r') as f:
-            for line in f:  
-                words = line.split() 
-                if "Simulation:" in words:    
-                    aux = float(extract_length(words))
-                    all_values.append(aux)  
-                    if count == 0: 
-                        bgt = aux 
-                        sml = aux   
-                        count+=1
-                    if aux > bgt: 
-                        bgt = aux 
-                    if aux < sml: 
-                        sml = aux
+    for line in f:  
+        words = line.split() 
+        if "Simulation:" in words:    
+            aux = float(extract_length(words))
+            all_values.append(aux)  
+            if count == 0: 
+                bgt = aux 
+                sml = aux   
+                count+=1
+            if aux > bgt: 
+                bgt = aux 
+            if aux < sml: 
+                sml = aux
                        
 #print(all_values[:])
 conf_interval, media, desvio_padrao  = confident_interval_data(all_values,0.95) 
