@@ -61,9 +61,9 @@ if __name__ == "__main__":
     else:
         res = produce_final()
         V=len(res)
-        graph = Graph(V+1)
+        graph = Graph(V)
 
-        for item in res:
+        for item in res[:len(res)-1]:
             try:
                 graph.add_edge(item[0], item[1], item[2])
             except:
@@ -147,7 +147,8 @@ if __name__ == "__main__":
         nx.draw_networkx_edge_labels(graph.G,pos,edge_labels=labels) 
         plt.show() 
     
-    def option_10(): 
+    def option_10():
+        print() 
         graph.print_graph() 
         pause()
 

@@ -2,13 +2,12 @@ import scipy.stats
 import numpy as np
 from functools import reduce  
 import statistics
-path = '/Users/Macbook/Documents/grafos-tp/src/outputNN.txt'
+path = '/Users/Macbook/Documents/grafos-tp/out/d198-FN.txt'
 
 def extract_length(source): 
     for i,w in enumerate(words): 
             if w == "LENGHT:":  
                 return words[i+1] 
-
 
 def confident_interval_data(X, confidence = 0.95, sigma = -1):
     def S(X): #funcao para calcular o desvio padrao amostral
@@ -59,4 +58,10 @@ print(bgt)
 print(sml)
 print(conf_interval) 
 print(media) 
-print(desvio_padrao)
+print(desvio_padrao) 
+print("roun__") 
+print(round(bgt,2)) 
+print(round(sml,2))
+print(round(conf_interval,2)) 
+print(round(media,2)) 
+print(round(desvio_padrao,2))

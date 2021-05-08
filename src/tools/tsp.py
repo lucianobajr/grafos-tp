@@ -93,26 +93,4 @@ def to_init_graph(tsp, list):
        
     array.pop(len(array)-1)
 
-    return array     
-
-def to_init_graph(tsp, list):
-    array = []
-
-    cities = city_tup(get_cities(tsp, detect_dimension(tsp)))
-
-    for item in list:
-
-        if list.index(item)<len(list)-2:
-            city1 = cities[item-1]
-            city2 = cities[(list[list.index(item)+1])-1]
-            #array.append((item, list[list.index(item)+1],city1,city2,euc_2d_distance(city1, city2)))
-            array.append((item, list[list.index(item)+1],euc_2d_distance(city1, city2)))
-        else:
-            city1 = cities[item-1]
-            city2 = cities[(list[len(list)-1])-1]
-            #array.append((item, list[list.index(item)+1], city1,city2,euc_2d_distance(city1, city2)))
-            array.append((item, list[list.index(item)+1],euc_2d_distance(city1, city2)))
-       
-    array.pop(len(array)-1)
-
     return array
