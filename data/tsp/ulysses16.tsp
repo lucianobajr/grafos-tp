@@ -1,6 +1,5 @@
 NAME: ulysses16.tsp
 TYPE: TSP
-COMMENT: Odyssey of Ulysses (Groetschel/Padberg)
 DIMENSION: 16
 EDGE_WEIGHT_TYPE: GEO
 DISPLAY_DATA_TYPE: COORD_DISPLAY

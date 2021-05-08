@@ -1,6 +1,3 @@
-#   Guilherme Aguiar 
-#will go trough the all cities, create tours and identify the best path 
-
 from numpy       import array   
 import numpy as np   
 from collections import deque
@@ -149,4 +146,3 @@ class Improver:
                 flag = True
             
         return final_solution_enhanced, final
-    
